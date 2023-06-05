@@ -150,7 +150,7 @@
           <li>
             <div class="text-md min-w-fit lg:block hidden">
               <h1 @click="shipto = !shipto" class="flex">
-                <p class="min-w-fit">Ship to</p>
+                <p class="min-w-fit">Ship to 🏴</p>
                 <img
                   class="h-3 ml-1 mt-2"
                   src="../assets/header/flag.png"

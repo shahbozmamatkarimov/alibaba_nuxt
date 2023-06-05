@@ -24,6 +24,32 @@ const store = reactive({
   ],
 });
 
+const date = reactive({
+  day: 4,
+  hour: 13,
+  min: 34,
+  sec: 56,
+});
+
+const time = setInterval(() => {
+  date.sec -= 1;
+  if (date.sec == 0) {
+    date.min -= 1;
+    date.sec = 1000;
+  }
+  if (date.min == 0) {
+    date.hour -= 1;
+    date.min = 59;
+  }
+  if (date.hour == 0) {
+    date.day -= 1;
+    date.hour = 23;
+  }
+  if (date.day == 0 && date.hour == 0 && date.min == 0 && date.sec == 0) {
+    clearInterval(time)
+  }
+},1000);
+
 setInterval(() => {
   store.slider = state.value[store.sliderShow];
   store.sliderShow += 1;
@@ -129,19 +155,19 @@ onMounted(async () => {
         </div>
         <div class="flex gap-2 lg:py-6 text-center text-white">
           <div class="bg-[#606060] p-2 w-14 rounded-md">
-            <p class="font-bold text-lg">04</p>
+            <p class="font-bold text-lg">{{date.day}}</p>
             <p>Days</p>
           </div>
           <div class="bg-[#606060] p-2 w-14 rounded-md">
-            <p class="font-bold text-lg">13</p>
+            <p class="font-bold text-lg">{{date.hour}}</p>
             <p>Hour</p>
           </div>
           <div class="bg-[#606060] p-2 w-14 rounded-md">
-            <p class="font-bold text-lg">34</p>
+            <p class="font-bold text-lg">{{date.min}}</p>
             <p>Min</p>
           </div>
           <div class="bg-[#606060] p-2 w-14 rounded-md">
-            <p class="font-bold text-lg">56</p>
+            <p class="font-bold text-lg">{{ date.sec }}</p>
             <p>Sec</p>
           </div>
         </div>

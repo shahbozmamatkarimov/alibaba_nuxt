@@ -11,6 +11,7 @@
 
 <script setup>
 const toggle = ref(false)
+
 const event = (e) => {
   if (e.target.className.match('bx-menu')){
     toggle.value = !toggle.value
@@ -18,8 +19,8 @@ const event = (e) => {
 }
 
 const close = ()=>{
-  toggle.value = false;
-}
+  toggle.value = false; 
+} 
 </script>
 
 <style lang="scss" scoped></style>
