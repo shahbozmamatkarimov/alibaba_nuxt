@@ -2,7 +2,7 @@
   <main>
     <!------------- page path ------------->
     <section>
-      <div class="flex gap-1 text-gray-500 items-center -mt-4 mb-2">
+      <div class="flex gap-1 pl-5 text-gray-500 items-center -mt-4 mb-2">
         <p>Home</p>
         <i class="bx bx-chevron-right"></i>
         <p>Clothings</p>
@@ -16,77 +16,302 @@
 
   <!------------- aside ------------->
   <div class="flex">
-    <aside class="w-52 mr-5">
+    <aside class="md:block hidden w-52 max-w-[25%] mr-5 font-medium pl-5">
       <!------------- Category ------------->
       <div>
-        <h1 class="flex justify-between pb-2 font-bold">
-          Category<i
-            class="bx bx-chevron-down text-gray-500 font-extrabold hidden"
+        <h1
+          @click="showToggle('Category')"
+          class="flex justify-between cursor-pointer pb-2 font-bold pt-2"
+        >
+          Category
+          <i
+            v-if="show.Category[0]"
+            class="bx bx-chevron-down text-gray-500 font-extrabold"
           ></i
-          ><i class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
+          ><i v-else class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
         </h1>
-        <div>
+        <div v-show="!show.Category[0]">
           <ul class="leading-8 text-gray-500">
-            <li>Mobile accessory</li>
-            <li>Electronics</li>
-            <li>Smartphones</li>
-            <li>Modern tech</li>
-            <li class="text-blue-500">See all</li>
+            <li
+              v-for="(i, index) in category"
+              :key="index"
+              v-show="show.Category[1] > index"
+            >
+              {{ i.name }}
+            </li>
           </ul>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="seeToggle('Category')"
+            v-if="show.Category[1] == 4"
+          >
+            See all
+          </div>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="removeToggle('Category')"
+            v-else
+          >
+            remove
+          </div>
         </div>
       </div>
+
       <hr />
-      <!------------- Brands ------------->
       <div>
-        <h1>
-          Brands<i class="bx bx-chevron-down"></i
-          ><i class="bx bx-chevron-up"></i>
+        <h1
+          @click="showToggle('Brands')"
+          class="flex justify-between cursor-pointer pb-2 font-bold pt-2"
+        >
+          Brands
+          <i
+            v-if="show.Brands[0]"
+            class="bx bx-chevron-down text-gray-500 font-extrabold"
+          ></i
+          ><i v-else class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
         </h1>
-        <div>
-          <ul class="leading-8">
-            <li><input type="checkbox" />Samsung</li>
-            <li><input type="checkbox" />Apple</li>
-            <li><input type="checkbox" />Huawei</li>
-            <li><input type="checkbox" />Pocco</li>
-            <li><input type="checkbox" />Lenovo</li>
-            <li>See all</li>
+        <div v-show="!show.Brands[0]">
+          <ul class="leading-8 text-gray-500">
+            <li
+              v-for="(i, index) in brends"
+              :key="index"
+              v-show="show.Brands[1] > index"
+            >
+              <input type="checkbox" /> {{ i.name }}
+            </li>
           </ul>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="seeToggle('Brands')"
+            v-if="show.Brands[1] == 4"
+          >
+            See all
+          </div>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="removeToggle('Brands')"
+            v-else
+          >
+            remove
+          </div>
         </div>
       </div>
       <hr />
-      <!------------- Features ------------->
+
       <div>
-        <h1>
+        <h1
+          @click="showToggle('Features')"
+          class="flex justify-between cursor-pointer pb-2 font-bold pt-2"
+        >
           Features
-          <i class="bx bx-chevron-down"></i>
-          <i class="bx bx-chevron-up"></i>
+          <i
+            v-if="show.Features[0]"
+            class="bx bx-chevron-down text-gray-500 font-extrabold"
+          ></i
+          ><i v-else class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
         </h1>
-        <div>
-          <ul class="leading-8">
-            <li><input type="checkbox" />Metallic</li>
-            <li><input type="checkbox" />Plastic cover</li>
-            <li><input type="checkbox" />8GB Ram</li>
-            <li><input type="checkbox" />Super power</li>
-            <li><input type="checkbox" />Large Memory</li>
-            <li>See all</li>
+        <div v-show="!show.Features[0]">
+          <ul class="leading-8 text-gray-500">
+            <li
+              v-for="(i, index) in features"
+              :key="index"
+              v-show="show.Features[1] > index"
+            >
+              <input type="checkbox" /> {{ i.name }}
+            </li>
           </ul>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="seeToggle('Features')"
+            v-if="show.Features[1] == 4"
+          >
+            See all
+          </div>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="removeToggle('Features')"
+            v-else
+          >
+            remove
+          </div>
         </div>
       </div>
+      <hr />
+
+      <div>
+        <h1
+          @click="showToggle('Pricerange')"
+          class="flex justify-between py-2 cursor-pointer font-bold"
+        >
+          Price range
+          <i
+            v-if="show.Pricerange[0]"
+            class="bx bx-chevron-down text-gray-500 font-extrabold"
+          ></i
+          ><i v-else class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
+        </h1>
+        <div v-show="!show.Pricerange[0]">
+          <ul class="leading-8 text-gray-500">
+            <li
+              v-for="(i, index) in pricerange"
+              :key="index"
+              v-show="show.Pricerange[1] > index"
+            >
+              <input type="checkbox" /> {{ i.name }}
+            </li>
+          </ul>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="seeToggle('Pricerange')"
+            v-if="show.Pricerange[1] == 4"
+          >
+            See all
+          </div>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="removeToggle('Pricerange')"
+            v-else
+          >
+            remove
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div>
+        <h1
+          @click="showToggle('Condition')"
+          class="flex justify-between py-2 cursor-pointer font-bold"
+        >
+          Condition
+          <i
+            v-if="show.Condition[0]"
+            class="bx bx-chevron-down text-gray-500 font-extrabold"
+          ></i
+          ><i v-else class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
+        </h1>
+        <div v-show="!show.Condition[0]">
+          <ul class="leading-8 text-gray-500">
+            <li
+              v-for="(i, index) in condition"
+              :key="index"
+              v-show="show.Condition[1] > index"
+            >
+              <input type="checkbox" /> {{ i.name }}
+            </li>
+          </ul>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="seeToggle('Condition')"
+            v-if="show.Condition[1] == 4"
+          >
+            See all
+          </div>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="removeToggle('Condition')"
+            v-else
+          >
+            remove
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div>
+        <h1
+          @click="showToggle('Ratings')"
+          class="flex justify-between cursor-pointer py-2 font-bold"
+        >
+          Ratings
+          <i
+            v-if="show.Ratings[0]"
+            class="bx bx-chevron-down text-gray-500 font-extrabold"
+          ></i
+          ><i v-else class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
+        </h1>
+        <div v-show="!show.Ratings[0]">
+          <ul class="leading-8 text-gray-500">
+            <li
+              v-for="(i, index) in ratings"
+              :key="index"
+              v-show="show.Ratings[1] > index"
+            >
+              <input type="checkbox" /> {{ i.name }}
+            </li>
+          </ul>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="seeToggle('Ratings')"
+            v-if="show.Ratings[1] == 4"
+          >
+            See all
+          </div>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="removeToggle('Ratings')"
+            v-else
+          >
+            remove
+          </div>
+        </div>
+      </div>
+      <hr />
+
+      <div>
+        <h1
+          @click="showToggle('Manufacturer')"
+          class="flex justify-between py-2 cursor-pointer font-bold"
+        >
+          Manufacturer
+          <i
+            v-if="show.Manufacturer[0]"
+            class="bx bx-chevron-down text-gray-500 font-extrabold"
+          ></i
+          ><i v-else class="bx bx-chevron-up text-gray-500 font-extrabold"></i>
+        </h1>
+        <div v-show="!show.Manufacturer[0]">
+          <ul class="leading-8 text-gray-500">
+            <li
+              v-for="(i, index) in manufacturer"
+              :key="index"
+              v-show="show.Manufacturer[1] > index"
+            >
+              <input type="checkbox" /> {{ i.name }}
+            </li>
+          </ul>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="seeToggle('Manufacturer')"
+            v-if="show.Manufacturer[1] == 4"
+          >
+            See all
+          </div>
+          <div
+            class="cursor-pointer text-blue-500"
+            @click="removeToggle('Manufacturer')"
+            v-else
+          >
+            remove
+          </div>
+        </div>
+      </div>
+      <hr />
     </aside>
 
-    <main class="w-full">
+    <main class="md:w-[87%] w-full p-5">
       <!------------- navbar ------------->
       <nav
-        class="flex justify-between items-center w-full pr-2 pl-5 bg-white py-2 border-2 rounded-md"
+        class="flex justify-between items-center pr-2 pl-5 bg-white py-2 border-2 rounded-md"
       >
-        <h1>12,911 items in Mobile accessory</h1>
-        <div class="flex items-center gap-4">
-          <div class="flex gap-2">
+        <h1 class="lg:block hidden min-w-fit">12,911 items in Mobile accessory</h1>
+        <div class="flex items-center justify-center lg:w-fit w-full gap-4">
+          <div class="hidden lg:flex gap-2">
             <input type="checkbox" id="verify" />
             <label for="verify">Verified only</label>
           </div>
           <select
-            class="outline-none w-40 border-2 py-1 px-2 rounded-lg"
+            class="lg:block hidden outline-none w-40 border-2 py-1 px-2 rounded-lg"
             name="filter"
             id="filter"
           >
@@ -94,6 +319,8 @@
             <option value="1">New</option>
             <option value="2">Old</option>
           </select>
+          <h1 class="block lg:hidden border-2 py-1 px-2 rounded-lg">Sort: Newest <i class='bx bx-menu-alt-left' ></i></h1>
+          <h1 class="block lg:hidden border-2 py-1 px-2 rounded-lg">Filter (3) <i class='bx bx-filter-alt' ></i></h1>
           <p>
             <i
               class="p-1 text-[20px] rounded-l-md bg-gray-300 border-2 bx bxs-dashboard"
@@ -107,31 +334,31 @@
 
       <!------------- filter ------------->
       <section>
-        <div>
+        <div class="overflow-hidden overflow-x-auto">
           <ul class="flex gap-2 my-4 text-gray-700">
-            <li class="pb-1 px-2 border-2 border-blue-400 rounded-md">
+            <li class="min-w-fit pb-1 px-2 border-2 border-blue-400 rounded-md">
               Samsung
               <i class="bx bx-x pl-3 text-lg font-bold text-gray-500"></i>
             </li>
-            <li class="pb-1 px-2 border-2 border-blue-400 rounded-md">
+            <li class="min-w-fit pb-1 px-2 border-2 border-blue-400 rounded-md">
               Apple <i class="bx bx-x pl-3 text-lg font-bold text-gray-500"></i>
             </li>
-            <li class="pb-1 px-2 border-2 border-blue-400 rounded-md">
+            <li class="min-w-fit pb-1 px-2 border-2 border-blue-400 rounded-md">
               Poco <i class="bx bx-x pl-3 text-lg font-bold text-gray-500"></i>
             </li>
-            <li class="pb-1 px-2 border-2 border-blue-400 rounded-md">
+            <li class="min-w-fit pb-1 px-2 border-2 border-blue-400 rounded-md">
               Metallic
               <i class="bx bx-x pl-3 text-lg font-bold text-gray-500"></i>
             </li>
-            <li class="pb-1 px-2 border-2 border-blue-400 rounded-md">
+            <li class="min-w-fit pb-1 px-2 border-2 border-blue-400 rounded-md">
               4 star
               <i class="bx bx-x pl-3 text-lg font-bold text-gray-500"></i>
             </li>
-            <li class="pb-1 px-2 border-2 border-blue-400 rounded-md">
+            <li class="min-w-fit pb-1 px-2 border-2 border-blue-400 rounded-md">
               3 star
               <i class="bx bx-x pl-3 text-lg font-bold text-gray-500"></i>
             </li>
-            <li class="pb-1 px-2 text-blue-500 cursor-pointer">
+            <li class="pb-1 px-2 text-blue-500 cursor-pointer min-w-fit">
               Clear all filter
             </li>
           </ul>
@@ -140,63 +367,14 @@
 
       <!------------- product section ------------->
       <section>
-        <div class="flex justify-between flex-wrap">
-          <div
-            class="text-md px-3 pb-7 w-1/4 -mx-3"
-            v-for="i in store.products.data"
-            :key="i"
-          >
-            <div class="p-5 bg-white border-2 rounded-md">
-              <div class="flex justify-center">
-                <img class="w-44 h-64 mb-5" :src="i.image" alt="img" />
-              </div>
-              <hr class="w-[117%] -mx-5" />
-              <div class="leading-7 py-2">
-                <div class="flex justify-between items-center">
-                  <div>
-                    <div class="flex justify-between items-center">
-                      <h1 class="font-bold">${{ i.price }}</h1>
-                      <p
-                        class="line-through font-bold text-xs pt-1 text-gray-500"
-                      >
-                        $1128.00
-                      </p>
-                    </div>
-                    <div class="flex">
-                      <img
-                        src="../../assets/header/star.svg"
-                        alt="star"
-                        v-for="(i, index) in Math.floor(i.rating.rate)"
-                        :key="index"
-                      />
-                      <img
-                        src="../../assets/header/star1.svg"
-                        alt="star"
-                        v-for="(i, index) in 5 - Math.floor(i.rating.rate)"
-                        :key="index"
-                      />
-                      <i class="px-2 text-[#FF9017]">{{ i.rating.rate }}</i>
-                    </div>
-                  </div>
-                  <div
-                    class="flex items-center justify-center text-blue-600 border-2 h-10 w-10 text-2xl rounded-lg cursor-pointer"
-                  >
-                    <i class="bx bx-heart"></i>
-                    <i class="bx bxs-heart hidden"></i>
-                  </div>
-                </div>
-              </div>
-              <p class="text-gray-500 w-full truncate">
-                {{ i.title }}
-              </p>
-              <p class="text-gray-500">{{ i.category }}</p>
-            </div>
-          </div>
+        <div class="flex flex-wrap justify-between overflow-hidden">
+          <Productscard />
         </div>
       </section>
+
       <!------------- pagination section ------------->
-      <section>
-        <select>
+      <section class="flex justify-end gap-2 mb-40">
+        <select class="w-28 px-3 py-1 rounded-lg border-2">
           <option selected>Show 10</option>
           <option value="1">Show 25</option>
           <option value="2">Show 50</option>
@@ -204,106 +382,66 @@
         </select>
 
         <div>
-          <ul class="inline-flex items-center -space-x-px">
+          <ul class="inline-flex items-center font-bold -space-x-px">
             <li>
-              <a
-                href="#"
-                class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              <button
+                class="block px-3 py-2 ml-0 leading-tight bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <span class="sr-only">Previous</span>
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </a>
+                <i class="bx bx-chevron-left"></i>
+              </button>
+            </li>
+            <li
+              class="px-3 py-2 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              v-for="i in 3"
+              :key="i"
+            >
+              {{ i }}
             </li>
             <li>
-              <a
-                href="#"
-                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >1</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >2</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                aria-current="page"
-                class="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                >3</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >4</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                >5</a
-              >
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              <button
+                class="block px-3 py-2 leading-tight bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <span class="sr-only">Next</span>
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </a>
+                <i class="bx bx-chevron-right"></i>
+              </button>
             </li>
           </ul>
         </div>
       </section>
-
-      <!------------- section ------------->
-      <!------------- section ------------->
-      <!------------- section ------------->
-      <!------------- section ------------->
     </main>
   </div>
 </template>
   
 <script setup>
-const store = reactive({
-  products: "",
+import { brends } from "../../constants/mobile/brends";
+import { category } from "../../constants/mobile/category";
+import { condition } from "../../constants/mobile/condition";
+import { features } from "../../constants/mobile/features";
+import { manufacturer } from "../../constants/mobile/manufacturer";
+import { pricerange } from "../../constants/mobile/pricerange";
+import { ratings } from "../../constants/mobile/ratings";
+
+const show = reactive({
+  Category: [false, 4],
+  Brands: [false, 4],
+  Features: [true, 4],
+  Pricerange: [true, 4],
+  Condition: [true, 4],
+  Ratings: [true, 4],
+  Manufacturer: [true, 4],
 });
 
-try {
-  store.products = await useFetch("https://fakestoreapi.com/products?limit=8");
-} catch (error) {
-  console.log(error);
+function seeToggle(val) {
+  show[val][1] = 10;
+}
+
+function showToggle(val) {
+  show[val][0] = !show[val][0];
+}
+
+function removeToggle(val) {
+  show[val][1] = 4;
 }
 </script>
 

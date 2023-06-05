@@ -1,13 +1,15 @@
 <template>
   <footer class="text-lg text-gray-500">
     <div class="flex flex-col items-center py-10 bg-[#EFF2F4]">
-      <h1 class="font-bold text-black">Subscribe on our newsletter</h1>
-      <p>
+      <h1 class="font-bold text-black text-center">
+        Subscribe on our newsletter
+      </h1>
+      <p class="px-2 text-center">
         Get daily news on upcoming offers from many suppliers all over the world
       </p>
-      <form class="flex items-center py-8">
+      <form class="flex flex-wrap justify-center items-center py-8">
         <div
-          class="flex items-center leading-[5rem] rounded-lg border-2 bg-white"
+          class="flex items-center my-2 leading-[5rem] rounded-lg border-2 bg-white"
         >
           <i class="bx bx-envelope text-gray-500 px-2"></i>
           <input
@@ -18,14 +20,14 @@
           />
         </div>
         <input
-          class="bg-blue-500 rounded-lg text-white mx-2 py-1 px-5"
+          class="bg-blue-500 cursor-pointer rounded-lg text-white mx-2 py-1 px-5"
           type="submit"
           value="Subscribe"
         />
       </form>
     </div>
-    <div class="flex justify-between bg-white py-10 px-20">
-      <div class="w-[25%]">
+    <div class="flex flex-wrap justify-between bg-white py-10 lg:px-20 px-5">
+      <div class="lg:w-[25%] w-[40%]">
         <h1 class="pb-5">
           <router-link to="/" class="flex cursor-pointer">
             <img
@@ -53,7 +55,7 @@
           <i class="bx bxl-youtube bg-gray-400 text-white p-2 rounded-full"></i>
         </div>
       </div>
-      <div>
+      <div class="lg:w-min md:w-1/5 sm:w-1/2 w-full">
         <h2 class="font-bold text-black pb-5">About</h2>
         <ul>
           <li>About Us</li>
@@ -62,7 +64,7 @@
           <li>Blogs</li>
         </ul>
       </div>
-      <div>
+      <div class="lg:w-min md:w-1/3 sm:w-1/2 w-full">
         <h2 class="font-bold text-black pb-5">Partnership</h2>
         <ul>
           <li>About Us</li>
@@ -71,7 +73,7 @@
           <li>Blogs</li>
         </ul>
       </div>
-      <div>
+      <div class="lg:w-min md:w-1/3 sm:w-1/2 w-full">
         <h2 class="font-bold text-black pb-5">Information</h2>
         <ul>
           <li>Help Center</li>
@@ -80,7 +82,7 @@
           <li>Contact us</li>
         </ul>
       </div>
-      <div>
+      <div class="lg:w-min md:w-1/3 sm:w-1/2 w-full">
         <h2 class="font-bold text-black pb-5">For users</h2>
         <ul>
           <li>Login</li>
@@ -89,7 +91,7 @@
           <li>My Orders</li>
         </ul>
       </div>
-      <div>
+      <div class="lg:w-min md:w-1/3 sm:w-1/2 w-full">
         <h2 class="font-bold text-black pb-5">Get app</h2>
         <div>
           <div>
@@ -101,7 +103,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-between bg-[#EFF2F4] px-20 py-5">
+    <div class="flex justify-between bg-[#EFF2F4] lg:px-20 px-5 py-5">
       <h1>© 2023 Ecommerce.</h1>
       <select class="bg-transparent outline-none" name="lang" id="lang">
         <option value="1">

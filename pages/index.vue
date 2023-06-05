@@ -1,44 +1,80 @@
+<script setup>
+import { menu } from "./../constants/menu";
+import { useSlider } from "./../composables/slider";
+const { state } = useSlider();
+const { getServices } = useServices();
+
+console.log(state.value[0]);
+const store = reactive({
+  sliderShow: 0,
+  slider:
+    "https://img.freepik.com/free-photo/music-podcast-background-with-headphones-microphone-coffee-laptop-pink-table-flat-lay-top-view-flat-lay_501050-993.jpg",
+  services: "",
+  countries: [
+    ["Arabic Emirates", "ae"],
+    ["Australia", "au"],
+    ["United States", "vi"],
+    ["Russia", "ru"],
+    ["Italy", "it"],
+    ["Denmark", "dk"],
+    ["France", "fr"],
+    ["Arabic Emirates", "ae"],
+    ["China", "cn"],
+    ["Great Britain", "br"],
+  ],
+});
+
+setInterval(() => {
+  store.slider = state.value[store.sliderShow];
+  store.sliderShow += 1;
+  if (store.sliderShow == 4) {
+    store.sliderShow = 0;
+  }
+}, 2000);
+
+const show = () => {
+  if (store.sliderShow < 3) {
+    store.sliderShow = store.sliderShow + 1;
+  } else {
+    store.sliderShow = 0;
+  }
+  store.slider = state.value[store.sliderShow];
+};
+
+onMounted(async () => {
+  store.services = await getServices();
+});
+</script>
+
 <template>
   <main>
     <!------------- section 1 ------------->
     <section class="flex gap-5 border-2 bg-white rounded-lg p-5">
-      <div class="w-[20%]">
-        <ul class="flex flex-col gap-1 text-lg">
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Automobiles
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Clothes and wear
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Home interiors
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Computer and tech
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Tools, equipments
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Sports and outdoor
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Animal and pets
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            Machinery tools
-          </li>
-          <li class="p-2 cursor-pointer hover:bg-[#E5F1FF] hover:font-medium rounded-md">
-            More category
+      <div class="md:block hidden w-[20%] min-w-fit">
+        <ul class="flexflex-col gap-1 min-w-fit lg:text-lg">
+          <li
+            v-for="i in menu"
+            :key="i.id"
+            class="p-2 min-w-fit cursor-pointer hover:bg-[#E5F1FF] rounded-md"
+          >
+            <router-link :to="i.path">{{ i.name }}</router-link>
           </li>
         </ul>
       </div>
-      <div class="w-[60%] relative">
-        <img
-          class="absolute w-full h-full"
-          src="https://img.freepik.com/free-photo/music-podcast-background-with-headphones-microphone-coffee-laptop-pink-table-flat-lay-top-view-flat-lay_501050-993.jpg"
-          alt="img"
-        />
+      <div class="slider md:w-[60%] relative">
+        <img class="absolute w-full h-full" :src="store.slider" alt="img" />
+        <div iv class="flex items-center h-full absolute">
+          <i
+            @click="show"
+            class="text-3xl cursor-pointer py-2 bg-[#808080b5] hover:bg-[#808080] relative z-10 text-black bx bx-chevron-left"
+          ></i>
+        </div>
+        <div class="flex items-center h-full absolute right-0">
+          <i
+            @click="show"
+            class="text-3xl cursor-pointer py-2 bg-[#808080b5] hover:bg-[#808080] relative z-10 text-black bx bx-chevron-right"
+          ></i>
+        </div>
         <div class="relative m-10">
           <h2 class="text-3xl">Latest trending</h2>
           <h1 class="text-4xl font-bold">Electronic items</h1>
@@ -47,7 +83,7 @@
           </button>
         </div>
       </div>
-      <div class="flex flex-col justify-between w-[20%]">
+      <div class="join flex flex-col justify-between w-[20%]">
         <div class="bg-[#E3F0FF] p-3 rounded-lg">
           <div class="flex my-2">
             <img
@@ -83,13 +119,15 @@
     </section>
 
     <!------------- section 2 ------------->
-    <section class="flex my-5 bg-white rounded-lg border-2">
-      <div class="w-[30%] p-5">
-        <div>
+    <section
+      class="offers flex lg:flex-row flex-col my-5 bg-white rounded-lg border-2"
+    >
+      <div class="deals lg:w-[30%] w-full p-5 lg:block sm:flex justify-between">
+        <div class="sm:pb-0 pb-5">
           <h1 class="font-bold text-lg">Deals and offers</h1>
           <p class="text-gray-500">Hygiene equipments</p>
         </div>
-        <div class="flex gap-2 py-6 text-center text-white">
+        <div class="flex gap-2 lg:py-6 text-center text-white">
           <div class="bg-[#606060] p-2 w-14 rounded-md">
             <p class="font-bold text-lg">04</p>
             <p>Days</p>
@@ -108,28 +146,15 @@
           </div>
         </div>
       </div>
-      <div class="flex w-full">
-        <div
-          class="flex flex-col items-center p-5 w-1/4 border-l-2"
-          v-for="i in store.offers.data"
-          :key="i.id"
-        >
-          <img class="h-40 w-[70%] p-2" :src="i.image" alt="img" />
-          <p class="text-center p-2 w-[80%] truncate">
-            {{ i.title.split(" ").slice(2, 3).join() }}
-          </p>
-          <button
-            class="bg-[#FFE3E3] text-[#EB001B] font-bold text-lg py-1 px-4 rounded-full"
-          >
-            -2{{ String(i.id).slice(0, 1) }}%
-          </button>
-        </div>
+      <div class="flex w-full overflow-hidden overflow-x-auto">
+        <Offerscard />
       </div>
     </section>
 
     <!------------- section 3 ------------->
+    <h1 class="text-lg font-bold lg:hidden">Home and outdoor</h1>
     <section class="flex my-5 rounded-lg bg-white border-2 border-b-0">
-      <div class="w-[31%] relative">
+      <div class="w-[31%] relative lg:block hidden">
         <img
           class="absolute w-full h-full rounded-l-lg"
           src="https://img.freepik.com/premium-photo/home-interior-with-armchair-flower-light-living-room-orange-tones-3d-illustration_175992-230.jpg?w=2000"
@@ -144,30 +169,14 @@
         </div>
       </div>
       <div class="flex w-full">
-        <div class="flex flex-wrap h-[270px]">
-          <div
-            class="flex justify-between text-md p-4 w-1/5 border-l-2 border-b-2"
-            v-for="i in store.outdoor.data"
-            :key="i"
-          >
-            <div>
-              <h1>{{ i.title.split(" ").slice(2, 3).join() }}</h1>
-              <div class="text-gray-500 text-sm">
-                <p>From</p>
-                <p>USD 1{{ String(i.id).slice(0, 1) }}</p>
-              </div>
-            </div>
-            <div class="flex items-end justify-end">
-              <img class="w-16 h-20" :src="i.image" alt="img" />
-            </div>
-          </div>
-        </div>
+        <Outdoorcard />
       </div>
     </section>
 
     <!------------- section 4 ------------->
+    <h1 class="text-lg font-bold lg:hidden">Consumer electronics</h1>
     <section class="flex my-5 rounded-lg bg-white border-2 border-b-0">
-      <div class="w-[31%] relative">
+      <div class="w-[31%] relative lg:block hidden">
         <img
           class="absolute w-full h-full rounded-l-lg"
           src="https://img.freepik.com/premium-photo/white-alarm-clock-headphones-blue-background-music-rest-place-text_178193-204.jpg"
@@ -183,37 +192,20 @@
         </div>
       </div>
       <div class="flex w-full">
-        <div class="flex flex-wrap h-[300px]">
-          <div
-            class="flex justify-between text-md p-4 w-1/5 border-l-2 border-b-2"
-            v-for="i in store.outdoor.data"
-            :key="i"
-          >
-            <div>
-              <h1>{{ i.title.split(" ").slice(2, 3).join() }}</h1>
-              <div class="text-gray-500 text-sm">
-                <p>From</p>
-                <p>USD 1{{ String(i.id).slice(0, 1) }}</p>
-              </div>
-            </div>
-            <div class="flex items-end justify-end">
-              <img class="w-16 h-20" :src="i.image" alt="img" />
-            </div>
-          </div>
-        </div>
+        <electronics />
       </div>
     </section>
 
     <!------------- section 5 ------------->
-    <section class="relative bg-white section5">
+    <section class="relative section5">
       <img
-        class="absolute z-0 w-full h-full"
+        class="absolute w-full h-full"
         src="https://c8.alamy.com/comp/BNHJNB/view-of-multiple-family-residences-in-a-suburban-neighborhood-single-BNHJNB.jpg"
         alt="img"
       />
       <div class="flex justify-between p-10">
-        <div class="relative text-white">
-          <h1 class="text-3xl font-bold">
+        <div class="sarlavha relative text-white">
+          <h1 class="text-3xl font-bold relative">
             An easy way to send <br />
             requests to all suppliers
           </h1>
@@ -222,11 +214,11 @@
             elit, sed do eiusmod tempor incididunt.
           </p>
         </div>
-        <div class="w-[40%] p-5 bg-white rounded-md">
+        <div class="sm:block hidden w-[40%] p-5 relative bg-white rounded-md">
           <h1 class="text-xl font-bold pb-3">Send quote to suppliers</h1>
           <form class="flex flex-col gap-5 w-full">
             <input
-              class="placeholder-black border-2 rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+              class="placeholder-black lg:text-lg text-[14px] border-2 rounded-md w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
               type="text"
               placeholder="What item you need?"
             />
@@ -238,9 +230,9 @@
               rows="3"
               placeholder="Type more details"
             ></textarea>
-            <div class="flex gap-3">
+            <div class="flex lg:flex-row flex-col gap-3">
               <input
-                class="placeholder-black border-2 w-1/2 rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none"
+                class="placeholder-black border-2 lg:w-1/2 rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none"
                 type="text"
                 placeholder="Quantity"
               />
@@ -268,58 +260,48 @@
     <section class="py-5 -mx-1">
       <h1 class="pb-5 mx-1 font-bold text-2xl">Recommended items</h1>
       <div class="flex justify-between flex-wrap">
-        <div
-          class="text-md p-5 m-1 w-[18%] bg-white my-4 border-2 rounded-md"
-          v-for="i in store.outdoor.data"
-          :key="i"
-        >
-          <div class="flex justify-center">
-            <img class="w-32 h-48 mb-5" :src="i.image" alt="img" />
-          </div>
-          <h1 class="font-bold">${{ i.price }}</h1>
-          <p class="title text-gray-500 w-full text-sm">
-            {{ i.title }}
-          </p>
-        </div>
+        <Itemscard />
       </div>
     </section>
 
     <!------------- section 7 ------------->
     <section>
       <h1 class="pb-5 mx-1 font-bold text-2xl">Our extra services</h1>
-      <div class="flex justify-between">
+      <div class="flex flex-wrap justify-between">
         <div
-          class="text-md bg-white m-1 w-1/4 my-4 border-2 rounded-xl"
-          v-for="i in store.electronics.data"
+          class="text-md lg:w-1/4 w-1/2 my-4"
+          v-for="i in store.services"
           :key="i"
         >
-          <div class="flex justify-center">
-            <img
-              class="w-full h-36 rounded-t-lg"
-              :src="`https://images.pexels.com/photos/201442${i.id}/pexels-photo-201442${i.id}.jpeg`"
-              alt="img"
-            />
-          </div>
-          <div class="p-5 flex relative">
-            <p class="title font-bold w-[80%] text-sm">
-              {{ i.title }}
-            </p>
-            <i
-              v-if="i.id == 1"
-              class="bx bx-search text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
-            ></i>
-            <i
-              v-if="i.id == 2"
-              class="bx bx-box text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
-            ></i>
-            <i
-              v-if="i.id == 3"
-              class="bx bx-send text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
-            ></i>
-            <i
-              v-if="i.id == 4"
-              class="bx bx-shield-quarter text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
-            ></i>
+          <div class="m-1 bg-white border-2 rounded-xl">
+            <div class="flex justify-center">
+              <img
+                class="w-full h-36 rounded-t-lg"
+                :src="`https://images.pexels.com/photos/201442${i.id}/pexels-photo-201442${i.id}.jpeg`"
+                alt="img"
+              />
+            </div>
+            <div class="p-5 flex relative">
+              <p class="title font-bold w-[80%] text-sm">
+                {{ i.title }}
+              </p>
+              <i
+                v-if="i.id == 1"
+                class="bx bx-search text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
+              ></i>
+              <i
+                v-if="i.id == 2"
+                class="bx bx-box text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
+              ></i>
+              <i
+                v-if="i.id == 3"
+                class="bx bx-send text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
+              ></i>
+              <i
+                v-if="i.id == 4"
+                class="bx bx-shield-quarter text-2xl bg-[#D1E7FF] py-3 px-4 rounded-full absolute right-5 -top-7"
+              ></i>
+            </div>
           </div>
         </div>
       </div>
@@ -329,11 +311,19 @@
     <section>
       <h1 class="pb-5 mx-1 font-bold text-2xl">Suppliers by region</h1>
       <div class="flex flex-wrap justify-between -mx-3">
-        <div class="flex items-center my-2 w-1/5" v-for="i in store.countries" :key="i[1]">
-          <img class="h-5 m-3" :src="`https://flagcdn.com/16x12/${i[1]}.png`" alt="{{ i[0] }}" />
+        <div
+          class="flex flex-wrap items-center my-2 lg:w-1/5 md:w-1/3 w-1/2"
+          v-for="i in store.countries"
+          :key="i[1]"
+        >
+          <img
+            class="h-5 m-3"
+            :src="`https://flagcdn.com/16x12/${i[1]}.png`"
+            alt="{{ i[0] }}"
+          />
           <div>
             <h1 class="font-medium">{{ i[0] }}</h1>
-            <p class="text-gray-500">shopname.{{i[1]}}</p>
+            <p class="text-gray-500">shopname.{{ i[1] }}</p>
           </div>
         </div>
       </div>
@@ -341,61 +331,9 @@
   </main>
 </template>
 
-
-<script setup>
-const store = reactive({
-  offers: "",
-  outdoor: "",
-  electronics: "",
-  services: "",
-  countries: [
-    ["Arabic Emirates", "ae"],
-    ["Australia", "au"],
-    ["United States", "vi"],
-    ["Russia", "ru"],
-    ["Italy", "it"],
-    ["Denmark", "dk"],
-    ["France", "fr"],
-    ["Arabic Emirates", "ae"],
-    ["China", "cn"],
-    ["Great Britain", "br"],
-  ],
-});
-
-try {
-  store.offers = await useFetch("https://fakestoreapi.com/products?limit=5");
-} catch (error) {
-  console.log(error);
-}
-
-try {
-  store.outdoor = await useFetch(
-    "https://fakestoreapi.com/products?limit=10&sort=desc"
-  );
-} catch (error) {
-  console.log(error);
-}
-
-try {
-  store.electronics = await useFetch(
-    "https://fakestoreapi.com/products?limit=20&sort=desc"
-  );
-} catch (error) {
-  console.log(error);
-}
-
-try {
-  store.electronics = await useFetch(
-    "https://fakestoreapi.com/products?limit=4"
-  );
-} catch (error) {
-  console.log(error);
-}
-</script>
-
 <style lang="scss" scoped>
 .section5 {
-  background: rgba(0, 0, 255, 0.679);
+  background-color: rgba(0, 0, 255, 0.674);
   background-size: cover;
   background-repeat: no-repeat;
   img {
@@ -411,5 +349,14 @@ try {
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-line-clamp: 2;
+}
+
+@media (max-width: 1280px) {
+  .join {
+    display: none;
+  }
+  .slider {
+    width: 100%;
+  }
 }
 </style>
